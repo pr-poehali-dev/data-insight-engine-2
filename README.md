@@ -1,3 +1,7 @@
-# data-insight-engine-2
+# Orbit - Современное управление проектами
 
-Initial repository setup for pr-poehali-dev/data-insight-engine-2
+![Preview](https://cdn.poehali.dev/templates/orbit/preview-ru.jpg)
+
+Лендинг для SaaS-продукта по управлению проектами в стиле Linear. Темная тема с 3D-анимациями, интерактивный hero-блок с эффектом параллакса, секции с функциями AI-ассистента, рабочими процессами и дорожными картами. Идеально подходит для инструментов разработки, трекеров задач и B2B-продуктов.
+
+`"tags": ["saas", "dark", "developer", "animations", "3d", "ai"]`
