@@ -311,7 +311,7 @@ export function ProductDirectionSection() {
           </div>
 
           {/* Right column - Document mockup */}
-          <div className="pt-10 pl-10 pb-16">
+          <div className="px-[5px] py-[35px] my-[5px]">
             <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 overflow-hidden">
               {/* Header */}
               <div className="flex items-center gap-2 px-4 py-3 border-b border-zinc-800 text-zinc-400 text-sm">
