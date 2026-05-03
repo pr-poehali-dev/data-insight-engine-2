@@ -2,14 +2,14 @@ import { motion } from "framer-motion"
 import { Sparkles, Zap, Globe, Hexagon, Diamond, Star, Circle, Square } from "lucide-react"
 
 const companies = [
-  { name: "TechFlow", icon: Zap },
-  { name: "Quantum", icon: Hexagon },
-  { name: "Alpine", icon: Diamond },
-  { name: "Stellar", icon: Star },
-  { name: "Nova", icon: Sparkles },
-  { name: "Nimbus", icon: Globe },
-  { name: "Prism", icon: Circle },
-  { name: "Vertex", icon: Square },
+  { name: "Telegram", icon: Zap },
+  { name: "ВКонтакте", icon: Globe },
+  { name: "MAX", icon: Star },
+  { name: "ChatGPT", icon: Sparkles },
+  { name: "RSS Feeds", icon: Circle },
+  { name: "Analytics", icon: Hexagon },
+  { name: "Multipost", icon: Diamond },
+  { name: "AdExchange", icon: Square },
 ]
 
 export function LogoCloud() {
@@ -24,7 +24,7 @@ export function LogoCloud() {
             transition={{ duration: 0.6 }}
             className="text-lg text-zinc-300 mb-2"
           >
-            Выбор лучших продуктовых команд мира.
+            Тысячи владельцев каналов уже экономят 48+ часов в неделю.
           </motion.p>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -33,7 +33,7 @@ export function LogoCloud() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-lg text-zinc-500 mb-16"
           >
-            От амбициозных стартапов до крупных корпораций.
+            От блогеров-одиночек до маркетинговых агентств.
           </motion.p>
 
           <motion.div
@@ -56,7 +56,7 @@ export function LogoCloud() {
             {/* Hover overlay button */}
             <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
               <div className="px-5 py-2.5 bg-zinc-800/80 backdrop-blur-sm border border-zinc-700 rounded-full text-sm text-zinc-300 flex items-center gap-2">
-                Наши клиенты
+                Все интеграции
                 <span aria-hidden="true">&gt;</span>
               </div>
             </div>

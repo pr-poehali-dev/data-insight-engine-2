@@ -15,8 +15,8 @@ export function ProductDirectionSection() {
       <div className="max-w-6xl mx-auto">
         {/* Section label */}
         <div className="flex items-center gap-2 mb-6">
-          <div className="w-3 h-3 rounded-full bg-green-500" />
-          <span className="text-zinc-400 text-sm">Проекты и долгосрочное планирование</span>
+          <div className="w-3 h-3 rounded-full bg-orange-500" />
+          <span className="text-zinc-400 text-sm">Планирование и расписание публикаций</span>
           <ChevronRight className="w-4 h-4 text-zinc-500" />
         </div>
 
@@ -30,13 +30,13 @@ export function ProductDirectionSection() {
             lineHeight: 1.1,
           }}
         >
-          Задайте направление продукта
+          Контент-план на недели вперёд
         </h2>
 
         {/* Description */}
         <p className="text-zinc-400 text-lg max-w-md mb-16">
-          <span className="text-white font-medium">Объедините команду вокруг единой дорожной карты.</span> Планируйте,
-          управляйте и отслеживайте все инициативы с помощью визуальных инструментов Orbit.
+          <span className="text-white font-medium">Планируйте публикации визуально.</span> Перетаскивайте посты в
+          календаре, настраивайте время и платформы — РакетаПост опубликует всё автоматически.
         </p>
 
         {/* 3D Timeline Visualization */}
@@ -113,7 +113,7 @@ export function ProductDirectionSection() {
               </div>
 
               {/* Project bars */}
-              {/* Realtime inference bar */}
+              {/* Telegram bar */}
               <div
                 className="absolute rounded-lg bg-zinc-800/90 border border-zinc-700/50 px-4 py-3 flex items-center gap-3"
                 style={{
@@ -123,15 +123,15 @@ export function ProductDirectionSection() {
                   height: "48px",
                 }}
               >
-                <div className="w-4 h-4 rotate-45 bg-zinc-500/60" />
-                <span className="text-zinc-300 text-sm font-medium">Инференс в реальном времени</span>
+                <div className="w-4 h-4 rounded-full bg-blue-500/60" />
+                <span className="text-zinc-300 text-sm font-medium">Telegram: новый пост о продукте</span>
                 <div
-                  className="absolute w-5 h-5 rotate-45 border-2 border-green-500 bg-transparent"
+                  className="absolute w-5 h-5 rotate-45 border-2 border-orange-500 bg-transparent"
                   style={{ right: "15%", top: "50%", transform: "translateY(-50%) rotate(45deg)" }}
                 />
               </div>
 
-              {/* Prototype bar */}
+              {/* ВКонтакте bar */}
               <div
                 className="absolute rounded-lg bg-zinc-800/70 border border-zinc-700/40 px-4 py-3 flex items-center gap-3"
                 style={{
@@ -141,13 +141,13 @@ export function ProductDirectionSection() {
                   height: "44px",
                 }}
               >
-                <div className="w-3 h-3 rotate-45 bg-zinc-600/60" />
-                <span className="text-zinc-500 text-sm">Прототип</span>
+                <div className="w-3 h-3 rounded-full bg-blue-600/60" />
+                <span className="text-zinc-500 text-sm">ВКонтакте: репост</span>
               </div>
 
-              {/* Beta bar */}
+              {/* AI генерация bar */}
               <div
-                className="absolute rounded-lg bg-zinc-800/90 border border-zinc-700/50 px-4 py-3 flex items-center justify-between"
+                className="absolute rounded-lg bg-zinc-800/90 border border-orange-500/30 px-4 py-3 flex items-center justify-between"
                 style={{
                   left: "45%",
                   top: "155px",
@@ -155,15 +155,15 @@ export function ProductDirectionSection() {
                   height: "48px",
                 }}
               >
-                <span className="text-zinc-400 text-sm">Бета</span>
+                <span className="text-orange-400 text-sm">✦ AI генерирует пост</span>
                 <div className="flex gap-0.5">
-                  <div className="w-2.5 h-2.5 rotate-45 bg-zinc-500/60" />
-                  <div className="w-2.5 h-2.5 rotate-45 bg-zinc-500/60" />
-                  <div className="w-2.5 h-2.5 rotate-45 bg-zinc-500/60" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-orange-500/60" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-orange-500/40" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-orange-500/20" />
                 </div>
               </div>
 
-              {/* RLHF fine tuning bar */}
+              {/* MAX bar */}
               <div
                 className="absolute rounded-lg bg-zinc-800/70 border border-zinc-700/40 px-4 py-3 flex items-center justify-between"
                 style={{
@@ -173,10 +173,10 @@ export function ProductDirectionSection() {
                   height: "48px",
                 }}
               >
-                <span className="text-zinc-400 text-sm">RLHF-дообучение</span>
+                <span className="text-zinc-400 text-sm">MAX: автопубликация</span>
                 <div className="flex gap-0.5">
-                  <div className="w-2.5 h-2.5 rotate-45 bg-zinc-500/60" />
-                  <div className="w-2.5 h-2.5 rotate-45 bg-zinc-500/60" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/60" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/40" />
                 </div>
               </div>
             </div>
@@ -185,117 +185,102 @@ export function ProductDirectionSection() {
 
         {/* Bottom two-column section */}
         <div className="grid grid-cols-1 md:grid-cols-2">
-          {/* Left column - Manage projects end-to-end */}
+          {/* Left column - Content analytics */}
           <div className="border-t border-r border-b border-zinc-800 pt-10 pr-10 pb-16">
-            <h3 className="text-xl font-medium text-zinc-200 mb-3">Управляйте проектами от А до Я</h3>
+            <h3 className="text-xl font-medium text-zinc-200 mb-3">AI-аналитика эффективности</h3>
             <p className="text-zinc-500 text-base leading-relaxed mb-8">
-              Объедините спецификации, этапы, задачи и документацию в одном месте.
+              Смотрите охваты, вовлечённость и CTR по каждому посту и каналу в едином дашборде.
             </p>
 
             <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-5">
-              <h4 className="text-lg font-medium text-zinc-200 mb-5">Обзор проекта</h4>
+              <h4 className="text-lg font-medium text-zinc-200 mb-5">Статистика канала</h4>
 
-              {/* Properties row */}
               <div className="flex items-center gap-4 mb-4">
-                <span className="text-zinc-500 text-sm w-20">Свойства</span>
+                <span className="text-zinc-500 text-sm w-24">Платформа</span>
                 <div className="flex items-center gap-2">
                   <span className="flex items-center gap-1.5 px-2 py-1 rounded bg-zinc-800 text-zinc-300 text-xs">
-                    <span className="w-2 h-2 rounded-full bg-yellow-500" />
-                    В работе
+                    <span className="w-2 h-2 rounded-full bg-blue-500" />
+                    Telegram
                   </span>
                   <span className="flex items-center gap-1.5 px-2 py-1 rounded bg-zinc-800 text-zinc-300 text-xs">
-                    <svg className="w-3 h-3" viewBox="0 0 16 16" fill="currentColor">
-                      <rect x="2" y="2" width="12" height="12" rx="2" />
-                    </svg>
-                    ENG
-                  </span>
-                  <div className="flex -space-x-1.5">
-                    <div className="w-5 h-5 rounded-full bg-zinc-600 border border-zinc-900" />
-                    <div className="w-5 h-5 rounded-full bg-zinc-500 border border-zinc-900" />
-                    <div className="w-5 h-5 rounded-full bg-zinc-700 border border-zinc-900" />
-                  </div>
-                </div>
-              </div>
-
-              {/* Resources row */}
-              <div className="flex items-center gap-4 mb-4">
-                <span className="text-zinc-500 text-sm w-20">Ресурсы</span>
-                <div className="flex items-center gap-2">
-                  <span className="flex items-center gap-1.5 px-2 py-1 rounded bg-zinc-800 text-zinc-300 text-xs">
-                    <span className="text-purple-400">Исследование</span>
-                  </span>
-                  <span className="flex items-center gap-1.5 px-2 py-1 rounded bg-zinc-800 text-zinc-400 text-xs">
-                    <span className="text-yellow-500">Интервью</span>
+                    <span className="w-2 h-2 rounded-full bg-blue-700" />
+                    ВКонтакте
                   </span>
                 </div>
               </div>
 
-              {/* Milestones row */}
+              <div className="flex items-center gap-4 mb-4">
+                <span className="text-zinc-500 text-sm w-24">Охват</span>
+                <div className="flex items-center gap-2">
+                  <span className="flex items-center gap-1.5 px-2 py-1 rounded bg-zinc-800 text-orange-400 text-xs font-medium">
+                    ↑ 48 200 / нед
+                  </span>
+                </div>
+              </div>
+
               <div className="flex items-start gap-4">
-                <span className="text-zinc-500 text-sm w-20 pt-1">Этапы</span>
+                <span className="text-zinc-500 text-sm w-24 pt-1">Метрики</span>
                 <div className="flex flex-col gap-2">
                   <span className="flex items-center gap-2 text-zinc-300 text-sm">
-                    <span className="w-2.5 h-2.5 rotate-45 bg-purple-500" />
-                    Дизайн-ревью <span className="text-zinc-500">100%</span>
+                    <span className="w-2.5 h-2.5 rounded-full bg-orange-500" />
+                    CTR <span className="text-orange-400">8.4%</span>
                   </span>
                   <span className="flex items-center gap-2 text-zinc-300 text-sm">
-                    <span className="w-2.5 h-2.5 rotate-45 bg-purple-500" />
-                    Внутренняя альфа <span className="text-zinc-500">100% из 10</span>
+                    <span className="w-2.5 h-2.5 rounded-full bg-blue-500" />
+                    Вовлечённость <span className="text-blue-400">12.1%</span>
                   </span>
                   <span className="flex items-center gap-2 text-zinc-400 text-sm">
-                    <span className="w-2.5 h-2.5 rotate-45 border border-zinc-500 bg-transparent" />
-                    Релиз <span className="text-zinc-500">25% из 53</span>
+                    <span className="w-2.5 h-2.5 rounded-full border border-zinc-500" />
+                    Лучшее время <span className="text-zinc-500">10:00–12:00</span>
                   </span>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Right column - Project updates */}
+          {/* Right column - Post status */}
           <div className="border-t border-b border-zinc-800 pt-10 pl-10 pb-16">
-            <h3 className="text-xl font-medium text-zinc-200 mb-3">Обновления проекта</h3>
+            <h3 className="text-xl font-medium text-zinc-200 mb-3">Статус публикаций</h3>
             <p className="text-zinc-500 text-base leading-relaxed mb-8">
-              Сообщайте о прогрессе и статусе проекта с помощью встроенных отчетов.
+              Следите за очередью постов — запланированные, опубликованные и ожидающие согласования.
             </p>
 
             <div className="relative h-48">
-              {/* Off track card (back) */}
+              {/* Queued card (back) */}
               <div
                 className="absolute rounded-lg bg-zinc-800/40 border border-zinc-700/30 px-4 py-2"
                 style={{ top: 0, left: "10%", width: "80%" }}
               >
                 <span className="flex items-center gap-2 text-zinc-500 text-sm">
                   <span className="w-1.5 h-1.5 rounded-full bg-zinc-500" />
-                  Отстает
+                  В очереди: 3 поста
                 </span>
               </div>
 
-              {/* At risk card (middle) */}
+              {/* Scheduled card (middle) */}
               <div
                 className="absolute rounded-lg bg-zinc-800/60 border border-zinc-700/40 px-4 py-2"
                 style={{ top: "30px", left: "5%", width: "85%" }}
               >
                 <span className="flex items-center gap-2 text-zinc-400 text-sm">
-                  <span className="w-1.5 h-1.5 rounded-full bg-zinc-400" />
-                  Под риском
+                  <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
+                  Запланировано: сегодня 18:00
                 </span>
               </div>
 
-              {/* On track card (front) */}
+              {/* Published card (front) */}
               <div
-                className="absolute rounded-xl bg-zinc-800/90 border border-zinc-700/50 px-5 py-4"
+                className="absolute rounded-xl bg-zinc-800/90 border border-orange-500/30 px-5 py-4"
                 style={{ top: "60px", left: 0, width: "95%" }}
               >
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center">
-                    <svg className="w-3 h-3 text-green-500" viewBox="0 0 16 16" fill="currentColor">
-                      <path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z" />
-                    </svg>
+                  <span className="w-5 h-5 rounded-full bg-orange-500/20 flex items-center justify-center">
+                    <span className="text-orange-400 text-xs">✓</span>
                   </span>
-                  <span className="text-green-500 font-medium text-sm">По плану</span>
+                  <span className="text-orange-400 font-medium text-sm">Опубликовано</span>
                 </div>
-                <p className="text-zinc-300 text-sm mb-3">Готовы к запуску в четверг</p>
-                <span className="text-zinc-500 text-xs">8 сен</span>
+                <p className="text-zinc-300 text-sm mb-3">Пост набрал 2 400 просмотров</p>
+                <span className="text-zinc-500 text-xs">сегодня 10:00 · Telegram + ВКонтакте</span>
               </div>
             </div>
           </div>
@@ -307,20 +292,20 @@ export function ProductDirectionSection() {
             <h3 className="text-2xl font-medium text-zinc-200 mb-8 leading-tight">
               Генерируйте идеи
               <br />
-              и планируйте работу
+              и ведите контент-план
             </h3>
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-3">
-                <div className="w-1 h-5 rounded-full bg-green-500" />
-                <span className="text-zinc-200 font-medium">Совместные документы</span>
+                <div className="w-1 h-5 rounded-full bg-orange-500" />
+                <span className="text-zinc-200 font-medium">AI предлагает темы и идеи</span>
               </div>
               <div className="flex items-center gap-3">
-                <div className="w-1 h-5 rounded-full bg-green-500/50" />
-                <span className="text-zinc-400">Комментарии в тексте</span>
+                <div className="w-1 h-5 rounded-full bg-orange-500/50" />
+                <span className="text-zinc-400">Редактор постов с форматированием</span>
               </div>
               <div className="flex items-center gap-3">
-                <div className="w-1 h-5 rounded-full bg-green-500/30" />
-                <span className="text-zinc-500">Создание задач из текста</span>
+                <div className="w-1 h-5 rounded-full bg-orange-500/30" />
+                <span className="text-zinc-500">Согласование с командой</span>
               </div>
             </div>
           </div>

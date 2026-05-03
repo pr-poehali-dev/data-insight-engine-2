@@ -1,13 +1,14 @@
 import { motion } from "framer-motion"
-import { ChevronRight, Check, Paperclip, Globe, Lightbulb } from "lucide-react"
+import { ChevronRight, Check } from "lucide-react"
+import Icon from "@/components/ui/icon"
 
-const agents = [
-  { name: "Cursor", isAgent: true, selected: true, icon: "◇" },
-  { name: "GitHub Copilot", isAgent: true, selected: false, icon: "◉" },
-  { name: "Sentry", isAgent: true, selected: false, icon: "◈" },
-  { name: "Leela", isAgent: false, selected: false, icon: "○" },
-  { name: "Codex", isAgent: true, selected: false, icon: "◎" },
-  { name: "Conor", isAgent: false, selected: false, icon: "○" },
+const aiFeatures = [
+  { name: "GPT-4o", isAI: true, selected: true, icon: "✦" },
+  { name: "Claude 3.5", isAI: true, selected: false, icon: "◈" },
+  { name: "Gemini Pro", isAI: true, selected: false, icon: "◇" },
+  { name: "Llama 3", isAI: true, selected: false, icon: "◉" },
+  { name: "Собственная база", isAI: false, selected: false, icon: "○" },
+  { name: "Тон бренда", isAI: false, selected: false, icon: "○" },
 ]
 
 export function AISection() {
@@ -30,7 +31,7 @@ export function AISection() {
             transition={{ duration: 0.6 }}
             className="flex items-center gap-2 mb-6"
           >
-            <div className="w-2 h-2 rounded-full bg-blue-500" />
+            <div className="w-2 h-2 rounded-full bg-orange-500" />
             <span className="text-zinc-400 text-sm">Искусственный интеллект</span>
             <ChevronRight className="w-4 h-4 text-zinc-500" />
           </motion.div>
@@ -49,7 +50,7 @@ export function AISection() {
               lineHeight: 1.1,
             }}
           >
-            Разработка с ИИ-помощником
+            Пост за 10 секунд с ChatGPT внутри платформы
           </motion.h2>
 
           {/* Description */}
@@ -60,23 +61,22 @@ export function AISection() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-zinc-400 max-w-md mb-8"
           >
-            <span className="text-white font-medium">Orbit для агентов.</span> Выбирайте из множества ИИ-агентов и
-            делегируйте задачи: от генерации кода до других технических задач.
+            <span className="text-white font-medium">РакетаПост для AI.</span> Выбирайте любую модель и генерируйте посты, заголовки, идеи — прямо в редакторе без переключения вкладок.
           </motion.p>
 
-          {/* Learn more button */}
+          {/* Button */}
           <motion.button
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="px-5 py-2.5 bg-zinc-800 text-zinc-300 rounded-lg border border-zinc-700 hover:bg-zinc-700 transition-colors text-sm flex items-center gap-2 mb-16"
+            className="px-5 py-2.5 bg-orange-500/10 text-orange-400 rounded-lg border border-orange-500/30 hover:bg-orange-500/20 transition-colors text-sm flex items-center gap-2 mb-16"
           >
-            Подробнее
+            Попробовать AI-генератор
             <ChevronRight className="w-4 h-4" />
           </motion.button>
 
-          {/* Agent dropdown mockup */}
+          {/* AI model picker mockup */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -135,16 +135,16 @@ export function AISection() {
 
                 {/* Input field */}
                 <div className="bg-zinc-800/50 border border-zinc-700 rounded-t-xl px-5 py-4">
-                  <span className="text-zinc-500 italic">Назначить...</span>
+                  <span className="text-zinc-500 italic">Напишите пост о запуске нового продукта...</span>
                 </div>
 
                 {/* Dropdown options */}
                 <div className="bg-zinc-900/80 border border-t-0 border-zinc-700 rounded-b-xl py-1">
-                  {agents.map((agent, index) => (
+                  {aiFeatures.map((item, index) => (
                     <div
-                      key={agent.name}
+                      key={item.name}
                       style={
-                        agent.selected
+                        item.selected
                           ? {
                               transform: "scale(1.04) rotateX(17deg)",
                               background: "linear-gradient(#343434 0%, #2d2d2d 100%)",
@@ -165,22 +165,18 @@ export function AISection() {
                     >
                       <div
                         className="flex items-center justify-between h-full"
-                        style={{
-                          paddingLeft: "24px",
-                          paddingRight: "24px",
-                          gap: "12px",
-                        }}
+                        style={{ paddingLeft: "24px", paddingRight: "24px", gap: "12px" }}
                       >
                         <div className="flex items-center gap-3">
-                          <span className="text-zinc-400 text-lg">{agent.icon}</span>
-                          <span className={agent.selected ? "text-white font-medium" : "text-zinc-300"}>
-                            {agent.name}
+                          <span className="text-orange-400 text-lg">{item.icon}</span>
+                          <span className={item.selected ? "text-white font-medium" : "text-zinc-300"}>
+                            {item.name}
                           </span>
-                          {agent.isAgent && (
-                            <span className="text-xs bg-zinc-700 text-zinc-400 px-2 py-0.5 rounded">Агент</span>
+                          {item.isAI && (
+                            <span className="text-xs bg-orange-500/20 text-orange-400 px-2 py-0.5 rounded border border-orange-500/20">AI</span>
                           )}
                         </div>
-                        {agent.selected && <Check className="w-4 h-4 text-zinc-400" />}
+                        {item.selected && <Check className="w-4 h-4 text-orange-400" />}
                       </div>
                     </div>
                   ))}
@@ -189,7 +185,7 @@ export function AISection() {
             </div>
           </motion.div>
 
-          {/* Bottom divider with two columns */}
+          {/* Bottom two columns */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -200,134 +196,55 @@ export function AISection() {
             <div className="grid grid-cols-1 md:grid-cols-2">
               {/* Left column */}
               <div className="border-t border-r border-b border-zinc-800/60 pt-12 pr-12 pb-16">
-                <h3 className="text-zinc-200 font-medium text-xl mb-3">Автопилот для продукта</h3>
+                <h3 className="text-zinc-200 font-medium text-xl mb-3">Автопилот для контента</h3>
                 <p className="text-zinc-500 text-base mb-8">
-                  Оптимизируйте рабочие процессы с ИИ-ассистентом для рутинных и ручных задач.
+                  Настройте расписание раз — и платформа будет публиковать посты автоматически.
+                  RSS-авторепостер следит за источниками 24/7 и отправляет лучшее в ваши каналы.
                 </p>
-
-                {/* Triage Intelligence Card */}
-                <div className="bg-zinc-900/30 border border-zinc-800/60 rounded-xl p-5">
-                  <div className="flex items-center gap-2 mb-5">
-                    <svg className="w-4 h-4 text-zinc-500" viewBox="0 0 16 16" fill="currentColor">
-                      <path d="M8 0L9.5 5.5L15 7L9.5 8.5L8 14L6.5 8.5L1 7L6.5 5.5L8 0Z" />
-                    </svg>
-                    <span className="text-zinc-500 text-sm">
-                      Умная <span className="text-zinc-300">сортировка</span>
-                    </span>
-                  </div>
-
-                  {/* Suggestions Row */}
-                  <div className="flex items-center gap-3 mb-3">
-                    <span className="text-zinc-600 text-sm w-20">Рекомендации</span>
-                    <div className="flex items-center gap-2">
-                      <span
-                        className="flex items-center gap-1.5 rounded-md px-2 py-1 text-sm"
-                        style={{ background: "#7170ff" }}
-                      >
-                        <span className="w-4 h-4 bg-white/30 rounded-full" />
-                        <span className="text-white">nan</span>
-                      </span>
-                      <span className="flex items-center gap-1.5 bg-zinc-800/30 rounded-md px-2 py-1 text-sm text-zinc-600">
-                        <span className="w-3 h-3 border border-zinc-700 rounded" />
-                        Рефакторинг приложения
-                      </span>
-                      <span className="flex items-center gap-1.5 text-sm text-zinc-700">
-                        <span className="w-2 h-2 bg-zinc-600 rounded-full" />
-                        Slack
-                      </span>
+                <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-4 space-y-3">
+                  {[
+                    { label: "AI генерирует", value: "Пост о новинке", status: "orange" },
+                    { label: "Планировщик", value: "Публикация завтра 10:00", status: "blue" },
+                    { label: "Мультипостинг", value: "3 канала — готово", status: "green" },
+                  ].map((item) => (
+                    <div key={item.label} className="flex items-center justify-between">
+                      <span className="text-zinc-500 text-sm">{item.label}</span>
+                      <div className="flex items-center gap-2">
+                        <div className={`w-1.5 h-1.5 rounded-full ${item.status === "orange" ? "bg-orange-400" : item.status === "blue" ? "bg-blue-400" : "bg-emerald-400"}`} />
+                        <span className="text-zinc-300 text-sm">{item.value}</span>
+                      </div>
                     </div>
-                  </div>
-
-                  {/* Duplicate Row */}
-                  <div className="flex items-center gap-3 mb-3">
-                    <span className="text-zinc-600 text-sm w-20">Дубликат</span>
-                  </div>
-
-                  {/* Related Row */}
-                  <div className="flex items-center gap-3 mb-4">
-                    <span className="text-zinc-600 text-sm w-20">Связано с</span>
-                  </div>
-
-                  {/* Expanded Suggestion Card */}
-                  <div className="bg-zinc-800/40 rounded-lg p-4 ml-4">
-                    <div className="flex items-center gap-2 mb-3">
-                      <span className="w-5 h-5 bg-zinc-600 rounded-full" />
-                      <span className="text-zinc-300 text-sm font-medium">nan</span>
-                    </div>
-
-                    <p className="text-zinc-500 text-xs mb-2">Почему этот исполнитель</p>
-                    <p className="text-zinc-500 text-sm mb-4">
-                      Этот человек работал над похожими задачами, связанными с производительностью мобильного приложения
-                    </p>
-
-                    <p className="text-zinc-500 text-xs mb-2">Альтернативы</p>
-                    <div className="flex items-center gap-2 mb-4">
-                      <span className="flex items-center gap-1.5 bg-zinc-700/50 rounded-md px-2 py-1 text-sm">
-                        <span className="w-4 h-4 bg-zinc-500 rounded-full" />
-                        <span className="text-zinc-400">yann</span>
-                      </span>
-                      <span className="flex items-center gap-1.5 bg-zinc-700/50 rounded-md px-2 py-1 text-sm">
-                        <span className="w-4 h-4 bg-zinc-500 rounded-full" />
-                        <span className="text-zinc-400">erin</span>
-                      </span>
-                    </div>
-
-                    <button className="w-full flex items-center justify-center gap-2 bg-zinc-700/50 hover:bg-zinc-600/50 text-zinc-300 text-sm py-2.5 rounded-md transition-colors">
-                      <Check className="w-4 h-4" />
-                      Принять
-                    </button>
-                  </div>
+                  ))}
                 </div>
               </div>
 
               {/* Right column */}
               <div className="border-t border-b border-zinc-800/60 pt-12 pl-12 pb-16">
-                <h3 className="text-zinc-200 font-medium text-xl mb-3">Orbit MCP</h3>
+                <h3 className="text-zinc-200 font-medium text-xl mb-3">Командная работа</h3>
                 <p className="text-zinc-500 text-base mb-8">
-                  Подключите Orbit к любимым инструментам: Cursor, Claude, ChatGPT и другим.
+                  Добавляйте сотрудников, распределяйте задачи по каналам, согласовывайте посты
+                  перед публикацией — всё в одном окне.
                 </p>
-
-                {/* MCP Code Snippet */}
-                <div className="bg-zinc-900/30 border border-zinc-800/60 rounded-xl p-5 font-mono text-sm">
-                  <p className="text-zinc-700 mb-3">//mcp.orbit.app/sse</p>
-                  <div className="space-y-1 mb-6">
-                    <p>
-                      <span className="text-orange-400/70">"mcpServers"</span>
-                      <span className="text-zinc-500">: {"{"}</span>
-                    </p>
-                    <p className="pl-4">
-                      <span className="text-orange-400/70">"orbit"</span>
-                      <span className="text-zinc-500">: {"{"}</span>
-                    </p>
-                    <p className="pl-8">
-                      <span className="text-orange-400/70">"command"</span>
-                      <span className="text-zinc-500">: </span>
-                      <span className="text-green-400/70">"npx"</span>
-                    </p>
-                  </div>
-
-                  {/* Ask Anything Input */}
-                  <div className="bg-zinc-800/40 rounded-lg p-4">
-                    <div className="flex items-center gap-2 mb-4">
-                      <span className="w-0.5 h-5 bg-zinc-600" />
-                      <span className="text-zinc-600">Спросите что угодно</span>
+                <div className="space-y-3">
+                  {[
+                    { name: "Анна", role: "Контент-менеджер", color: "bg-orange-500" },
+                    { name: "Михаил", role: "Редактор", color: "bg-blue-500" },
+                    { name: "Ирина", role: "SMM-специалист", color: "bg-purple-500" },
+                  ].map((member) => (
+                    <div key={member.name} className="flex items-center gap-3">
+                      <div className={`w-8 h-8 rounded-full ${member.color} flex items-center justify-center`}>
+                        <span className="text-white text-xs font-medium">{member.name[0]}</span>
+                      </div>
+                      <div>
+                        <div className="text-zinc-200 text-sm font-medium">{member.name}</div>
+                        <div className="text-zinc-500 text-xs">{member.role}</div>
+                      </div>
+                      <div className="ml-auto flex items-center gap-1">
+                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                        <span className="text-zinc-500 text-xs">онлайн</span>
+                      </div>
                     </div>
-
-                    <div className="flex items-center gap-2">
-                      <button className="flex items-center gap-1.5 border border-zinc-700/60 text-zinc-500 text-sm px-3 py-1.5 rounded-full hover:bg-zinc-700/30 transition-colors">
-                        <Paperclip className="w-3.5 h-3.5" />
-                        Файл
-                      </button>
-                      <button className="flex items-center gap-1.5 border border-zinc-700/60 text-zinc-500 text-sm px-3 py-1.5 rounded-full hover:bg-zinc-700/30 transition-colors">
-                        <Globe className="w-3.5 h-3.5" />
-                        Поиск
-                      </button>
-                      <button className="flex items-center gap-1.5 border border-zinc-700/60 text-zinc-500 text-sm px-3 py-1.5 rounded-full hover:bg-zinc-700/30 transition-colors">
-                        <Lightbulb className="w-3.5 h-3.5" />
-                        Анализ
-                      </button>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </div>
             </div>
