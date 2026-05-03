@@ -1,65 +1,104 @@
 import { useState } from "react"
 import Icon from "@/components/ui/icon"
+import { PostEditorModal } from "@/components/dashboard/PostEditorModal"
 
-const DAYS = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"]
+const MONTHS_RU = ["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"]
+const DAYS_RU = ["Пн","Вт","Ср","Чт","Пт","Сб","Вс"]
+const WEEKDAYS_FULL = ["Понедельник","Вторник","Среда","Четверг","Пятница","Суббота","Воскресенье"]
 
-const mockPosts = [
-  { id: 1, day: 1, time: "10:00", title: "Как AI меняет контент-маркетинг", channels: ["tg"] },
-  { id: 2, day: 3, time: "14:00", title: "5 лайфхаков для роста канала", channels: ["tg", "vk"] },
-  { id: 3, day: 5, time: "18:00", title: "Кейс: 10к подписчиков за месяц", channels: ["tg"] },
+const channelColors: Record<string, string> = {
+  tg: "bg-blue-500",
+  vk: "bg-indigo-500",
+  max: "bg-orange-500",
+}
+
+interface Post {
+  id: number
+  year: number
+  month: number
+  day: number
+  time: string
+  title: string
+  channels: string[]
+  status: "scheduled" | "draft" | "published"
+}
+
+const mockPosts: Post[] = [
+  { id: 1, year: 2026, month: 4, day: 5, time: "10:00", title: "Как AI меняет контент-маркетинг", channels: ["tg"], status: "scheduled" },
+  { id: 2, year: 2026, month: 4, day: 7, time: "14:00", title: "5 лайфхаков для роста канала", channels: ["tg", "vk"], status: "scheduled" },
+  { id: 3, year: 2026, month: 4, day: 12, time: "18:00", title: "Кейс: 10к подписчиков за месяц", channels: ["tg"], status: "published" },
+  { id: 4, year: 2026, month: 4, day: 3, time: "09:00", title: "Черновик: Новый кейс", channels: ["tg"], status: "draft" },
 ]
 
-const stats = [
-  { label: "Всего постов", value: "24", icon: "FileText", color: "text-zinc-300" },
-  { label: "Опубликовано", value: "5", icon: "CheckCircle", color: "text-emerald-400" },
-  { label: "Запланировано", value: "12", icon: "Clock", color: "text-orange-400" },
-  { label: "Черновики", value: "7", icon: "Edit3", color: "text-zinc-400" },
-]
+function getDaysInMonth(year: number, month: number) {
+  return new Date(year, month + 1, 0).getDate()
+}
 
-function getWeekDates(offset = 0) {
-  const now = new Date()
-  const day = now.getDay()
-  const mon = new Date(now)
-  mon.setDate(now.getDate() - (day === 0 ? 6 : day - 1) + offset * 7)
-  return Array.from({ length: 7 }, (_, i) => {
-    const d = new Date(mon)
-    d.setDate(mon.getDate() + i)
-    return d
-  })
+function getFirstDayOfMonth(year: number, month: number) {
+  const d = new Date(year, month, 1).getDay()
+  return d === 0 ? 6 : d - 1
+}
+
+const statusColors: Record<string, string> = {
+  scheduled: "bg-orange-500",
+  draft: "bg-zinc-500",
+  published: "bg-emerald-500",
 }
 
 export function ContentPlanPage() {
-  const [weekOffset, setWeekOffset] = useState(0)
-  const [posts, setPosts] = useState(mockPosts)
-  const [showModal, setShowModal] = useState(false)
-  const [newPost, setNewPost] = useState({ title: "", day: 0, time: "12:00", channels: ["tg"] })
-  const [dragId, setDragId] = useState<number | null>(null)
-
-  const dates = getWeekDates(weekOffset)
   const today = new Date()
+  const [viewYear, setViewYear] = useState(today.getFullYear())
+  const [viewMonth, setViewMonth] = useState(today.getMonth())
+  const [posts, setPosts] = useState<Post[]>(mockPosts)
+  const [showEditor, setShowEditor] = useState(false)
+  const [editorDate, setEditorDate] = useState("")
+  const [selectedDay, setSelectedDay] = useState<number | null>(null)
 
-  const handleDrop = (dayIndex: number) => {
-    if (dragId === null) return
-    setPosts((prev) => prev.map((p) => (p.id === dragId ? { ...p, day: dayIndex } : p)))
-    setDragId(null)
+  const daysInMonth = getDaysInMonth(viewYear, viewMonth)
+  const firstDay = getFirstDayOfMonth(viewYear, viewMonth)
+
+  const prevMonth = () => {
+    if (viewMonth === 0) { setViewYear((y) => y - 1); setViewMonth(11) }
+    else setViewMonth((m) => m - 1)
+  }
+  const nextMonth = () => {
+    if (viewMonth === 11) { setViewYear((y) => y + 1); setViewMonth(0) }
+    else setViewMonth((m) => m + 1)
+  }
+  const goToToday = () => { setViewYear(today.getFullYear()); setViewMonth(today.getMonth()) }
+
+  const openEditorForDay = (day: number) => {
+    const dateStr = `${viewYear}-${String(viewMonth + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`
+    setEditorDate(dateStr)
+    setShowEditor(true)
   }
 
-  const addPost = () => {
-    setPosts((prev) => [...prev, { id: Date.now(), ...newPost }])
-    setShowModal(false)
-    setNewPost({ title: "", day: 0, time: "12:00", channels: ["tg"] })
-  }
+  const stats = [
+    { label: "Всего", value: posts.length, icon: "FileText", color: "text-zinc-300" },
+    { label: "Опубликовано", value: posts.filter((p) => p.status === "published").length, icon: "CheckCircle", color: "text-emerald-400" },
+    { label: "Запланировано", value: posts.filter((p) => p.status === "scheduled").length, icon: "Clock", color: "text-orange-400" },
+    { label: "Черновики", value: posts.filter((p) => p.status === "draft").length, icon: "Edit3", color: "text-zinc-400" },
+  ]
+
+  const cells: (number | null)[] = [
+    ...Array(firstDay).fill(null),
+    ...Array.from({ length: daysInMonth }, (_, i) => i + 1),
+  ]
+  while (cells.length % 7 !== 0) cells.push(null)
+
+  const monthName = MONTHS_RU[viewMonth]
+  const isCurrentMonth = viewYear === today.getFullYear() && viewMonth === today.getMonth()
 
   return (
-    <div className="p-4 md:p-6 space-y-6">
+    <div className="p-3 md:p-6 space-y-4">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
           <h1 className="text-xl font-semibold text-white">Контент-план AI</h1>
-          <p className="text-zinc-500 text-sm mt-0.5">Календарь запланированных публикаций</p>
+          <p className="text-zinc-500 text-sm mt-0.5">Календарь публикаций</p>
         </div>
         <button
-          onClick={() => setShowModal(true)}
+          onClick={() => { setEditorDate(""); setShowEditor(true) }}
           className="flex items-center gap-2 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-lg transition-colors whitespace-nowrap"
         >
           <Icon name="Plus" className="w-4 h-4" />
@@ -68,11 +107,11 @@ export function ContentPlanPage() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-3">
         {stats.map((s) => (
-          <div key={s.label} className="bg-zinc-900/60 border border-zinc-800 rounded-xl p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <Icon name={s.icon} className={`w-4 h-4 ${s.color}`} />
+          <div key={s.label} className="bg-zinc-900/60 border border-zinc-800 rounded-xl p-3 md:p-4">
+            <div className="flex items-center gap-2 mb-1.5">
+              <Icon name={s.icon} className={`w-3.5 h-3.5 ${s.color}`} />
               <span className="text-zinc-500 text-xs">{s.label}</span>
             </div>
             <div className={`text-2xl font-semibold ${s.color}`}>{s.value}</div>
@@ -80,168 +119,133 @@ export function ContentPlanPage() {
         ))}
       </div>
 
-      {/* Calendar navigation */}
+      {/* Calendar */}
       <div className="bg-zinc-900/60 border border-zinc-800 rounded-xl overflow-hidden">
+        {/* Month header */}
         <div className="flex items-center justify-between px-4 py-3 border-b border-zinc-800">
-          <div className="flex items-center gap-2">
-            <span className="text-white font-medium text-sm">
-              Неделя {weekOffset === 0 ? "1" : weekOffset > 0 ? `+${weekOffset}` : weekOffset}
+          <div className="flex items-center gap-3">
+            <span className="text-white font-semibold text-base md:text-lg">
+              {monthName} {viewYear}
             </span>
-            {weekOffset === 0 && (
-              <span className="text-xs text-orange-400 border border-orange-500/30 bg-orange-500/10 px-2 py-0.5 rounded-full">
-                текущая
+            {isCurrentMonth && (
+              <span className="hidden sm:block text-xs text-orange-400 border border-orange-500/30 bg-orange-500/10 px-2 py-0.5 rounded-full">
+                текущий
               </span>
             )}
           </div>
           <div className="flex items-center gap-1">
-            <button
-              onClick={() => setWeekOffset((w) => w - 1)}
-              className="px-2.5 py-1.5 text-xs text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-lg transition-colors"
-            >
-              ← Пред.
+            <button onClick={prevMonth} className="w-8 h-8 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-lg transition-colors">
+              <Icon name="ChevronLeft" className="w-4 h-4" />
             </button>
-            <button
-              onClick={() => setWeekOffset(0)}
-              className="px-2.5 py-1.5 text-xs text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-lg transition-colors"
-            >
-              Текущая
-            </button>
-            <button
-              onClick={() => setWeekOffset((w) => w + 1)}
-              className="px-2.5 py-1.5 text-xs text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-lg transition-colors"
-            >
-              След. →
+            {!isCurrentMonth && (
+              <button onClick={goToToday} className="px-2.5 py-1.5 text-xs text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-lg transition-colors hidden sm:block">
+                Сегодня
+              </button>
+            )}
+            <button onClick={nextMonth} className="w-8 h-8 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-lg transition-colors">
+              <Icon name="ChevronRight" className="w-4 h-4" />
             </button>
           </div>
         </div>
 
-        <div className="grid grid-cols-7 divide-x divide-zinc-800">
-          {DAYS.map((day, i) => {
-            const date = dates[i]
-            const isToday =
-              date.getDate() === today.getDate() &&
-              date.getMonth() === today.getMonth() &&
-              date.getFullYear() === today.getFullYear()
-            const dayPosts = posts.filter((p) => p.day === i)
+        {/* Date label row */}
+        <div className="px-4 py-2 bg-zinc-900/30 border-b border-zinc-800/50">
+          <p className="text-zinc-400 text-xs font-medium">
+            {WEEKDAYS_FULL[today.getDay() === 0 ? 6 : today.getDay() - 1]}, {today.getDate()} {MONTHS_RU[today.getMonth()]} {today.getFullYear()}
+          </p>
+        </div>
+
+        {/* Day names */}
+        <div className="grid grid-cols-7 border-b border-zinc-800">
+          {DAYS_RU.map((d, i) => (
+            <div key={d} className={`py-2 text-center text-[10px] md:text-xs font-semibold ${i >= 5 ? "text-orange-400/60" : "text-zinc-500"}`}>
+              {d}
+            </div>
+          ))}
+        </div>
+
+        {/* Calendar grid */}
+        <div className="grid grid-cols-7 divide-x divide-zinc-800/50">
+          {cells.map((day, idx) => {
+            const isToday = day !== null && isCurrentMonth && day === today.getDate()
+            const isPast = day !== null && (
+              viewYear < today.getFullYear() ||
+              (viewYear === today.getFullYear() && viewMonth < today.getMonth()) ||
+              (isCurrentMonth && day < today.getDate())
+            )
+            const isWeekend = idx % 7 >= 5
+            const dayPosts = day !== null ? posts.filter((p) => p.year === viewYear && p.month === viewMonth && p.day === day) : []
 
             return (
               <div
-                key={day}
-                className="min-h-[160px] p-2 relative"
-                onDragOver={(e) => e.preventDefault()}
-                onDrop={() => handleDrop(i)}
+                key={idx}
+                className={`min-h-[72px] md:min-h-[100px] p-1.5 md:p-2 relative border-b border-zinc-800/30 transition-colors ${
+                  day !== null ? "cursor-pointer hover:bg-zinc-800/30" : ""
+                } ${isWeekend && day !== null ? "bg-zinc-900/30" : ""}`}
+                onClick={() => day !== null && openEditorForDay(day)}
               >
-                <div className="text-center mb-2">
-                  <div className="text-zinc-500 text-[10px] font-medium">{day}</div>
-                  <div
-                    className={`text-sm font-medium mt-0.5 w-6 h-6 rounded-full flex items-center justify-center mx-auto ${
-                      isToday ? "bg-orange-500 text-white" : "text-zinc-300"
-                    }`}
-                  >
-                    {date.getDate()}
-                  </div>
-                </div>
-                <div className="space-y-1">
-                  {dayPosts.map((post) => (
-                    <div
-                      key={post.id}
-                      draggable
-                      onDragStart={() => setDragId(post.id)}
-                      className="bg-zinc-800/80 border border-zinc-700/50 rounded-lg p-1.5 cursor-grab active:cursor-grabbing group relative"
-                    >
-                      <div className="flex items-center gap-1 mb-1">
-                        <Icon name="Clock" className="w-2.5 h-2.5 text-zinc-500" />
-                        <span className="text-[9px] text-zinc-500">{post.time}</span>
-                      </div>
-                      <p className="text-[10px] text-zinc-300 leading-tight line-clamp-2">
-                        {post.title}
-                      </p>
-                      <button
-                        onClick={() => setPosts((prev) => prev.filter((p) => p.id !== post.id))}
-                        className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 text-zinc-500 hover:text-red-400 transition-all"
+                {day !== null && (
+                  <>
+                    <div className="flex items-center justify-between mb-1">
+                      <div
+                        className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-semibold transition-colors ${
+                          isToday
+                            ? "bg-orange-500 text-white shadow-lg shadow-orange-500/30"
+                            : isPast
+                            ? "text-zinc-600"
+                            : "text-zinc-300"
+                        }`}
                       >
-                        <Icon name="X" className="w-2.5 h-2.5" />
-                      </button>
+                        {day}
+                      </div>
+                      {dayPosts.length > 0 && (
+                        <span className="text-[9px] text-zinc-500">{dayPosts.length}</span>
+                      )}
                     </div>
-                  ))}
-                </div>
-                <button
-                  onClick={() => {
-                    setNewPost((n) => ({ ...n, day: i }))
-                    setShowModal(true)
-                  }}
-                  className="mt-1 w-full text-[10px] text-zinc-600 hover:text-zinc-400 transition-colors text-center py-1"
-                >
-                  + Добавить пост
-                </button>
+                    <div className="space-y-0.5">
+                      {dayPosts.slice(0, 2).map((post) => (
+                        <div
+                          key={post.id}
+                          onClick={(e) => { e.stopPropagation(); setSelectedDay(post.id) }}
+                          className="flex items-center gap-1 bg-zinc-800/70 hover:bg-zinc-700/60 border border-zinc-700/40 rounded px-1 py-0.5 transition-colors"
+                        >
+                          <div className={`w-1.5 h-1.5 rounded-full shrink-0 ${statusColors[post.status]}`} />
+                          <span className="text-[9px] md:text-[10px] text-zinc-300 truncate leading-tight">{post.title}</span>
+                        </div>
+                      ))}
+                      {dayPosts.length > 2 && (
+                        <div className="text-[9px] text-zinc-600 px-1">+{dayPosts.length - 2} ещё</div>
+                      )}
+                    </div>
+                  </>
+                )}
               </div>
             )
           })}
         </div>
+
+        {/* Legend */}
+        <div className="px-4 py-3 border-t border-zinc-800 flex flex-wrap gap-3">
+          {[
+            { color: "bg-orange-500", label: "Запланированы" },
+            { color: "bg-emerald-500", label: "Опубликованы" },
+            { color: "bg-zinc-500", label: "Черновики" },
+          ].map((l) => (
+            <div key={l.label} className="flex items-center gap-1.5">
+              <div className={`w-2 h-2 rounded-full ${l.color}`} />
+              <span className="text-zinc-500 text-[10px]">{l.label}</span>
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* Modal */}
-      {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4">
-          <div className="bg-[#141417] border border-zinc-800 rounded-2xl p-6 w-full max-w-md">
-            <div className="flex items-center justify-between mb-5">
-              <h3 className="text-white font-semibold">Новый пост</h3>
-              <button onClick={() => setShowModal(false)} className="text-zinc-500 hover:text-white">
-                <Icon name="X" className="w-5 h-5" />
-              </button>
-            </div>
-            <div className="space-y-4">
-              <div>
-                <label className="text-zinc-400 text-xs mb-1.5 block">Заголовок</label>
-                <input
-                  value={newPost.title}
-                  onChange={(e) => setNewPost((n) => ({ ...n, title: e.target.value }))}
-                  placeholder="Введите заголовок поста..."
-                  className="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-2.5 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-orange-500/60"
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="text-zinc-400 text-xs mb-1.5 block">День недели</label>
-                  <select
-                    value={newPost.day}
-                    onChange={(e) => setNewPost((n) => ({ ...n, day: Number(e.target.value) }))}
-                    className="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-orange-500/60"
-                  >
-                    {DAYS.map((d, i) => (
-                      <option key={d} value={i}>
-                        {d}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label className="text-zinc-400 text-xs mb-1.5 block">Время</label>
-                  <input
-                    type="time"
-                    value={newPost.time}
-                    onChange={(e) => setNewPost((n) => ({ ...n, time: e.target.value }))}
-                    className="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-orange-500/60"
-                  />
-                </div>
-              </div>
-              <div className="flex gap-3 pt-2">
-                <button
-                  onClick={() => setShowModal(false)}
-                  className="flex-1 py-2.5 border border-zinc-700 text-zinc-300 text-sm rounded-lg hover:bg-zinc-800 transition-colors"
-                >
-                  Отмена
-                </button>
-                <button
-                  onClick={addPost}
-                  className="flex-1 py-2.5 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-lg transition-colors"
-                >
-                  Добавить
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+      {/* Post editor modal */}
+      {showEditor && (
+        <PostEditorModal
+          onClose={() => setShowEditor(false)}
+          initialDate={editorDate}
+          mode="create"
+        />
       )}
     </div>
   )

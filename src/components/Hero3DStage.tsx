@@ -59,7 +59,8 @@ export function Hero3DStage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
-                className="text-4xl md:text-5xl lg:text-[56px] font-medium text-white leading-[1.1] text-balance"
+                className="text-4xl md:text-5xl lg:text-[56px] font-medium text-white leading-[1.1] text-balance glitch-title"
+                data-text="Ваши Telegram, ВКонтакте и MAX каналы будут постить 24/7 без вашего участия"
               >
                 Ваши Telegram, ВКонтакте и MAX каналы будут постить 24/7 без вашего участия
               </motion.h1>

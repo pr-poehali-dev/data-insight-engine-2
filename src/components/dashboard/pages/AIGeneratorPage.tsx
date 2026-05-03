@@ -42,6 +42,7 @@ export function AIGeneratorPage() {
   const [loading, setLoading] = useState(false)
   const [loadingMsg, setLoadingMsg] = useState("")
   const [headlinesCount, setHeadlinesCount] = useState(3)
+  const [showDeleteTemplate, setShowDeleteTemplate] = useState<string | null>(null)
 
   const toggleChannel = (ch: string) =>
     setChannels((prev) => (prev.includes(ch) ? prev.filter((c) => c !== ch) : [...prev, ch]))
@@ -64,6 +65,12 @@ export function AIGeneratorPage() {
     }
     setShowSaveTemplate(false)
     setTemplateName("")
+  }
+
+  const confirmDeleteTemplate = (name: string) => {
+    setSavedTemplates((prev) => prev.filter((t) => t !== name))
+    if (selectedTemplate === name) { setSelectedTemplate(null); setChannelDesc("") }
+    setShowDeleteTemplate(null)
   }
 
   const channelOptions = [
@@ -145,17 +152,25 @@ export function AIGeneratorPage() {
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {savedTemplates.map((t) => (
-                    <button
-                      key={t}
-                      onClick={() => { setSelectedTemplate(t); setChannelDesc(t) }}
-                      className={`px-3 py-1.5 rounded-lg text-xs border transition-all ${
-                        selectedTemplate === t
-                          ? "border-orange-500 bg-orange-500/10 text-orange-400"
-                          : "border-zinc-700 text-zinc-400 hover:border-zinc-600 hover:text-zinc-200"
-                      }`}
-                    >
-                      {t}
-                    </button>
+                    <div key={t} className="flex items-center gap-1 group/tpl">
+                      <button
+                        onClick={() => { setSelectedTemplate(t); setChannelDesc(t) }}
+                        className={`px-3 py-1.5 rounded-lg text-xs border transition-all ${
+                          selectedTemplate === t
+                            ? "border-orange-500 bg-orange-500/10 text-orange-400"
+                            : "border-zinc-700 text-zinc-400 hover:border-zinc-600 hover:text-zinc-200"
+                        }`}
+                      >
+                        {t}
+                      </button>
+                      <button
+                        onClick={() => setShowDeleteTemplate(t)}
+                        className="opacity-0 group-hover/tpl:opacity-100 p-1 text-zinc-600 hover:text-red-400 transition-all"
+                        title="Удалить шаблон"
+                      >
+                        <Icon name="X" className="w-3 h-3" />
+                      </button>
+                    </div>
                   ))}
                 </div>
               </div>
@@ -350,6 +365,27 @@ export function AIGeneratorPage() {
             <div className="w-12 h-12 border-2 border-orange-500/30 border-t-orange-500 rounded-full animate-spin mx-auto mb-4" />
             <p className="text-orange-400 font-medium">{loadingMsg}</p>
             <p className="text-zinc-500 text-sm mt-1">Не закрывайте это окно, идёт генерация</p>
+          </div>
+        </div>
+      )}
+
+      {/* Delete template confirm */}
+      {showDeleteTemplate !== null && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4">
+          <div className="bg-[#141417] border border-zinc-800 rounded-2xl p-6 w-full max-w-sm">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-9 h-9 rounded-xl bg-red-500/20 flex items-center justify-center">
+                <Icon name="Trash2" className="w-4 h-4 text-red-400" />
+              </div>
+              <h3 className="text-white font-semibold">Удалить шаблон?</h3>
+            </div>
+            <p className="text-zinc-400 text-sm mb-1">Вы собираетесь удалить шаблон:</p>
+            <p className="text-orange-400 text-sm font-medium mb-5 px-3 py-2 bg-orange-500/10 border border-orange-500/20 rounded-lg">«{showDeleteTemplate}»</p>
+            <p className="text-zinc-500 text-xs mb-5">Это действие нельзя отменить.</p>
+            <div className="flex gap-3">
+              <button onClick={() => setShowDeleteTemplate(null)} className="flex-1 py-2.5 border border-zinc-700 text-zinc-300 text-sm rounded-lg hover:bg-zinc-800">Отмена</button>
+              <button onClick={() => confirmDeleteTemplate(showDeleteTemplate)} className="flex-1 py-2.5 bg-red-500/80 hover:bg-red-500 text-white text-sm font-medium rounded-lg">Удалить</button>
+            </div>
           </div>
         </div>
       )}

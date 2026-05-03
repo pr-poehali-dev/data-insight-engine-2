@@ -11,7 +11,7 @@ const mockOffers = [
   { id: 5, channel: "БизнесХаб", platform: "tg", price: 1800, topic: "Бизнес", subscribers: "22 100", contact: "@bizneshub" },
 ]
 
-const myOffers = [
+const initialMyOffers = [
   { id: 10, channel: "РакетаПост", platform: "tg", price: 2500, topic: "AI/SMM", subscribers: "15 000", contact: "@raketapost_ads", boosted: false },
 ]
 
@@ -32,10 +32,12 @@ const topics = ["Финансы", "Технологии", "Маркетинг", 
 
 export function AdExchangePage() {
   const [tab, setTab] = useState<Tab>("feed")
+  const [myOffers, setMyOffers] = useState(initialMyOffers)
   const [showBoost, setShowBoost] = useState<number | null>(null)
-  const [showCreate, setShowCreate] = useState(false)
   const [selectedBoost, setSelectedBoost] = useState<number | null>(null)
   const [form, setForm] = useState({ channel: "", title: "", desc: "", price: "", topic: topics[0], contact: "" })
+  const [showEditOffer, setShowEditOffer] = useState<typeof initialMyOffers[0] | null>(null)
+  const [editForm, setEditForm] = useState({ channel: "", price: "", topic: topics[0], contact: "" })
 
   return (
     <div className="p-4 md:p-6 space-y-5">
@@ -147,7 +149,7 @@ export function AdExchangePage() {
                   </div>
                 </div>
               </div>
-              <div className="flex gap-2">
+              <div className="flex gap-2 flex-wrap">
                 <button
                   onClick={() => setShowBoost(offer.id)}
                   className="flex items-center gap-1.5 px-3 py-2 bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 text-xs rounded-lg hover:bg-yellow-500/20 transition-colors"
@@ -155,7 +157,10 @@ export function AdExchangePage() {
                   <Icon name="Star" className="w-3.5 h-3.5" />
                   Поднять
                 </button>
-                <button className="flex items-center gap-1.5 px-3 py-2 border border-zinc-700 text-zinc-400 hover:bg-zinc-800 text-xs rounded-lg transition-colors">
+                <button
+                  onClick={() => { setShowEditOffer(offer); setEditForm({ channel: offer.channel, price: String(offer.price), topic: offer.topic, contact: offer.contact }) }}
+                  className="flex items-center gap-1.5 px-3 py-2 border border-zinc-700 text-zinc-400 hover:bg-zinc-800 text-xs rounded-lg transition-colors"
+                >
                   <Icon name="Edit2" className="w-3.5 h-3.5" />
                   Изменить
                 </button>
@@ -223,6 +228,50 @@ export function AdExchangePage() {
             <button className="w-full py-3 bg-orange-500 hover:bg-orange-600 text-white font-medium text-sm rounded-xl transition-colors">
               Опубликовать оффер
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* Edit offer modal */}
+      {showEditOffer !== null && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4">
+          <div className="bg-[#141417] border border-zinc-800 rounded-2xl p-6 w-full max-w-sm">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-white font-semibold">Редактировать оффер</h3>
+              <button onClick={() => setShowEditOffer(null)} className="text-zinc-500 hover:text-white"><Icon name="X" className="w-5 h-5" /></button>
+            </div>
+            <div className="space-y-3">
+              <div>
+                <label className="text-zinc-400 text-xs mb-1.5 block">Название канала</label>
+                <input value={editForm.channel} onChange={(e) => setEditForm((f) => ({ ...f, channel: e.target.value }))} className="w-full bg-zinc-900 border border-zinc-700 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-orange-500/60" />
+              </div>
+              <div>
+                <label className="text-zinc-400 text-xs mb-1.5 block">Цена (₽)</label>
+                <input type="number" value={editForm.price} onChange={(e) => setEditForm((f) => ({ ...f, price: e.target.value }))} className="w-full bg-zinc-900 border border-zinc-700 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-orange-500/60" />
+              </div>
+              <div>
+                <label className="text-zinc-400 text-xs mb-1.5 block">Тематика</label>
+                <select value={editForm.topic} onChange={(e) => setEditForm((f) => ({ ...f, topic: e.target.value }))} className="w-full bg-zinc-900 border border-zinc-700 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-orange-500/60">
+                  {topics.map((t) => <option key={t} value={t}>{t}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="text-zinc-400 text-xs mb-1.5 block">Контакт Telegram</label>
+                <input value={editForm.contact} onChange={(e) => setEditForm((f) => ({ ...f, contact: e.target.value }))} className="w-full bg-zinc-900 border border-zinc-700 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-orange-500/60" />
+              </div>
+            </div>
+            <div className="flex gap-3 mt-4">
+              <button onClick={() => setShowEditOffer(null)} className="flex-1 py-2.5 border border-zinc-700 text-zinc-300 text-sm rounded-lg hover:bg-zinc-800">Отмена</button>
+              <button
+                onClick={() => {
+                  setMyOffers((prev) => prev.map((o) => o.id === showEditOffer!.id ? { ...o, channel: editForm.channel, price: Number(editForm.price), topic: editForm.topic, contact: editForm.contact } : o))
+                  setShowEditOffer(null)
+                }}
+                className="flex-1 py-2.5 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-lg"
+              >
+                Сохранить
+              </button>
+            </div>
           </div>
         </div>
       )}
