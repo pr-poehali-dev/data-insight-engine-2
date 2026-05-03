@@ -239,7 +239,7 @@ export function ProductDirectionSection() {
           </div>
 
           {/* Right column - Post status */}
-          <div className="border-t border-b border-zinc-800 pt-10 pl-10 pb-16">
+          <div className="border-t border-b border-zinc-800 pt-10 pb-16 px-[5px]">
             <h3 className="text-xl font-medium text-zinc-200 mb-3">Статус публикаций</h3>
             <p className="text-zinc-500 text-base leading-relaxed mb-8">
               Следите за очередью постов — запланированные, опубликованные и ожидающие согласования.
