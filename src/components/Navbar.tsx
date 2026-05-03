@@ -29,11 +29,11 @@ export function Navbar() {
 
           {/* Desktop actions */}
           <div className="hidden md:flex items-center gap-4">
-            <a href="#" className="text-sm text-zinc-400 hover:text-white transition-colors whitespace-nowrap">
+            <a href="/dashboard" className="text-sm text-zinc-400 hover:text-white transition-colors whitespace-nowrap">
               Войти
             </a>
             <a
-              href="#"
+              href="/dashboard"
               className="text-sm text-white bg-orange-500 hover:bg-orange-600 px-3.5 py-1.5 rounded-md transition-colors whitespace-nowrap"
             >
               Попробовать бесплатно
@@ -43,7 +43,7 @@ export function Navbar() {
           {/* Mobile: login + burger */}
           <div className="flex md:hidden items-center gap-3">
             <a
-              href="#"
+              href="/dashboard"
               className="text-sm text-white bg-orange-500 hover:bg-orange-600 px-3 py-1.5 rounded-md transition-colors whitespace-nowrap"
             >
               Войти
