@@ -14,16 +14,10 @@ export function Navbar() {
               Функции
             </a>
             <a href="#" className="text-sm text-zinc-400 hover:text-white transition-colors">
-              Аналитика
-            </a>
-            <a href="#" className="text-sm text-zinc-400 hover:text-white transition-colors">
               Тарифы
             </a>
             <a href="#" className="text-sm text-zinc-400 hover:text-white transition-colors">
               Биржа рекламы
-            </a>
-            <a href="#" className="text-sm text-zinc-400 hover:text-white transition-colors">
-              Контакты
             </a>
           </div>
           <div className="flex items-center gap-4">
