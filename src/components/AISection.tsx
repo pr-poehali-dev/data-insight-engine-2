@@ -219,7 +219,7 @@ export function AISection() {
               </div>
 
               {/* Right column */}
-              <div className="border-t border-b border-zinc-800/60 pt-12 pl-12 pb-16">
+              <div className="border-t border-b border-zinc-800/60 pt-12 pb-16 px-[5px]">
                 <h3 className="text-zinc-200 font-medium text-xl mb-3">Командная работа</h3>
                 <p className="text-zinc-500 text-base mb-8">
                   Добавляйте сотрудников, распределяйте задачи по каналам, согласовывайте посты
