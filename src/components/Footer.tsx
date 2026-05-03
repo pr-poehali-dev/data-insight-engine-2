@@ -9,9 +9,9 @@ export function Footer() {
   }
 
   return (
-    <footer className="border-t border-zinc-800 py-16 px-6" style={{ backgroundColor: "#09090B" }}>
+    <footer className="border-t border-zinc-800 py-12 md:py-16 px-4 sm:px-6" style={{ backgroundColor: "#09090B" }}>
       <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-6 md:gap-8">
           {/* Logo */}
           <div className="col-span-2 md:col-span-1">
             <div className="flex items-center gap-2 mb-4">

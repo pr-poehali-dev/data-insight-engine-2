@@ -38,7 +38,7 @@ const plans = [
 
 export function CTASection() {
   return (
-    <section className="py-24 px-6" style={{ backgroundColor: "#09090B" }}>
+    <section className="py-16 md:py-24 px-4 sm:px-6" style={{ backgroundColor: "#09090B" }}>
       <div className="max-w-6xl mx-auto">
         {/* Pricing */}
         <motion.div
@@ -115,15 +115,15 @@ export function CTASection() {
         </div>
 
         {/* Final CTA */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8 border-t border-zinc-800 pt-16">
-          <h2 className="text-3xl md:text-4xl lg:text-[42px] font-medium text-white tracking-tight">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6 border-t border-zinc-800 pt-16">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[42px] font-medium text-white tracking-tight text-center md:text-left">
             Запустите автопостинг сегодня.
           </h2>
-          <div className="flex items-center gap-3">
-            <button className="px-5 py-2.5 border border-zinc-700 text-white font-medium rounded-lg hover:bg-zinc-800 transition-colors text-sm">
+          <div className="flex items-center gap-3 flex-shrink-0">
+            <button className="px-4 py-2.5 border border-zinc-700 text-white font-medium rounded-lg hover:bg-zinc-800 transition-colors text-sm whitespace-nowrap">
               Связаться с нами
             </button>
-            <button className="px-5 py-2.5 bg-orange-500 text-white font-medium rounded-lg hover:bg-orange-600 transition-colors text-sm">
+            <button className="px-4 py-2.5 bg-orange-500 text-white font-medium rounded-lg hover:bg-orange-600 transition-colors text-sm whitespace-nowrap">
               Начать бесплатно
             </button>
           </div>

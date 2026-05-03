@@ -51,9 +51,9 @@ export function Hero3DStage() {
         />
 
         {/* Main content */}
-        <div className="relative z-10 pt-28 flex flex-col">
+        <div className="relative z-10 pt-20 md:pt-28 flex flex-col">
           {/* Hero text - contained and centered */}
-          <div className="w-full flex justify-center px-6 mt-16">
+          <div className="w-full flex justify-center px-4 sm:px-6 mt-10 md:mt-16">
             <div className="w-full max-w-4xl">
               <motion.h1
                 initial={{ opacity: 0, y: 20 }}
@@ -77,13 +77,13 @@ export function Hero3DStage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className="mt-8 flex items-center gap-6"
+                className="mt-8 flex flex-wrap items-center gap-4"
               >
-                <button className="px-5 py-2.5 bg-orange-500 text-white font-medium rounded-lg hover:bg-orange-600 transition-colors text-sm">
+                <button className="px-5 py-2.5 bg-orange-500 text-white font-medium rounded-lg hover:bg-orange-600 transition-colors text-sm whitespace-nowrap">
                   Начать бесплатно
                 </button>
                 <button className="text-zinc-300 font-medium hover:text-white transition-colors flex items-center gap-2 text-sm">
-                  <span className="text-zinc-500">Новинка:</span> AI-генератор постов за 10 секунд
+                  <span className="text-zinc-500 hidden sm:inline">Новинка:</span><span className="sm:hidden text-zinc-500">Новинка:</span> AI-генератор постов
                   <span aria-hidden="true">→</span>
                 </button>
               </motion.div>

@@ -141,7 +141,7 @@ const featureCards = [
 
 export function FeatureCardsSection() {
   return (
-    <div className="relative z-20 py-40" style={{ backgroundColor: "#09090B" }}>
+    <div className="relative z-20 py-16 md:py-40" style={{ backgroundColor: "#09090B" }}>
       <div
         className="absolute top-0 left-0 right-0 pointer-events-none"
         style={{
@@ -149,7 +149,7 @@ export function FeatureCardsSection() {
           background: "linear-gradient(to bottom, rgba(255,255,255,0.05) 0%, transparent 100%)",
         }}
       />
-      <div className="w-full flex justify-center px-6">
+      <div className="w-full flex justify-center px-4 sm:px-6">
         <div className="w-full max-w-5xl">
           {/* Header row */}
           <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8 mb-16">
@@ -186,7 +186,7 @@ export function FeatureCardsSection() {
           </div>
 
           {/* Feature cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {featureCards.map((card, index) => (
               <motion.div
                 key={card.title}
@@ -198,7 +198,7 @@ export function FeatureCardsSection() {
                 style={{
                   aspectRatio: "336 / 360",
                   borderRadius: "30px",
-                  height: "360px",
+                  minHeight: "280px",
                   isolation: "isolate",
                 }}
               >
